@@ -4,6 +4,7 @@ module.exports = function(config) {
         frameworks: ['systemjs', 'jasmine'],
         browsers: ['Chrome'],
         files: [
+            { pattern: 'node_modules/regenerator/runtime.js' },
             { pattern: 'src/*.js', included: false },
             { pattern: 'spec/*-spec.js' }
         ],
@@ -15,8 +16,11 @@ module.exports = function(config) {
             options: {
                 presets: ['es2015-native-modules'],
                 plugins: [
+                    'syntax-async-functions',
+                    'transform-regenerator',
                     'transform-es2015-modules-systemjs'
-                ]
+                ],
+                sourceMap: 'inline'
             }
         }
     });
