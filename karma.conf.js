@@ -16,7 +16,9 @@ module.exports = function(config) {
             options: {
                 presets: ['es2015-native-modules'],
                 plugins: [
+                    'syntax-function-bind',
                     'syntax-async-functions',
+                    'transform-function-bind',
                     'transform-regenerator',
                     'transform-es2015-modules-systemjs'
                 ],
