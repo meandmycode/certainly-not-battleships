@@ -1,0 +1,8 @@
+{
+  "name": "battleships-module",
+  "ignore": [
+    "spec",
+    "node_modules"
+  ],
+  "private": true
+}
