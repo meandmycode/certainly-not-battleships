@@ -139,7 +139,7 @@ export default class BattleshipGame extends EventEmitter {
         const hitShip = defenderState.grid.getShipAtPosition(position);
 
         // the ship was sank if its health reaches zero
-        const wasSank = (--hitShip.health) === 0;
+        const wasSank = hitShip ? (--hitShip.health) === 0 : false;
 
         const shot = {
             position,
