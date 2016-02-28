@@ -3,7 +3,7 @@ import PlayerState from './player-state.js';
 import Grid from './grid.js';
 import Ship from './ship.js';
 import { Rectangle } from './shape.js';
-import { toMap } from './utils.js';
+import { toMap, getRelativeItem } from './utils.js';
 
 /**
  * @typedef BattleshipRules
