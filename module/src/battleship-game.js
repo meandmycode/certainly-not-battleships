@@ -142,6 +142,7 @@ export default class BattleshipGame extends EventEmitter {
         const wasSank = (--hitShip.health) === 0;
 
         const shot = {
+            position,
             hit: hitShip != null,
             sank: wasSank,
         };
