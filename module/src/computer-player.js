@@ -61,9 +61,11 @@ export default class ComputerPlayer extends Player {
 
             if (e.player !== this) return;
 
+            const targetPlayerState = null; // todo: we need to select the player to attack
+
             const attackStrategy = this._attackStrategy;
 
-            attackStrategy(state);
+            attackStrategy(state, targetPlayerState);
 
         });
 

@@ -42,26 +42,26 @@ function aabb(rectangleGeometry) {
 
 }
 
+function intersects(geometries) {
+
+    const geometry = this;
+
+    for (let otherGeometry of geometries) {
+
+        // devnote: we assume all geometries are rectangles
+
+        if (rectanglesIntersect(geometry, otherGeometry)) return true;
+
+    }
+
+    return false;
+
+}
+
 function getRandomPlacement(items, geometrySelector, dimensions, currentTry = 0) {
 
     if (currentTry > MAX_TRIES) {
         throw new Error(`UNABLE_TO_SMART`);
-    }
-
-    function intersects(geometries) {
-
-        const geometry = this;
-
-        for (let otherGeometry of geometries) {
-
-            // devnote: we assume all geometries are rectangles
-
-            if (rectanglesIntersect(geometry, otherGeometry)) return true;
-
-        }
-
-        return false;
-
     }
 
     const placements = new Map();
@@ -80,10 +80,9 @@ function getRandomPlacement(items, geometrySelector, dimensions, currentTry = 0)
 
             const placed = [...placements.values()];
 
-            // todo: but not itself
             wasPlaced = geometry::intersects(placed) !== true;
 
-            // if we managed to find a place for the ship then stop
+            // if we managed to find a place for the geometry, then stop
             if (wasPlaced) {
 
                 placements.set(item, [position, rotation]);
@@ -93,8 +92,8 @@ function getRandomPlacement(items, geometrySelector, dimensions, currentTry = 0)
             }
         }
 
-        // if we failed to place a ship in any of the possible positions on
-        // the grid, then we need to retry placing ships all over again
+        // if we failed to place geometry in any of the possible positions on
+        // the grid, then we need to retry placing all geometries again
         if (wasPlaced !== true) {
             return getRandomPlacement(items, geometrySelector, dimensions, currentTry + 1);
         }
@@ -163,12 +162,8 @@ export default class GridSelectionStrategy {
      */
     static get RANDOM_ATTACK() {
 
-        return playerState => {
-
-
-
-            console.log(playerState);
-
+        return (playerState, targetPlayerState) => {
+            throw new Error(`NOT_IMPLEMENTED`);
         };
 
     }

@@ -36,6 +36,8 @@ export default class BattleshipGame extends EventEmitter {
         super();
 
         this.rules = rules;
+        this.players = players;
+
         this._state = BattleshipGame.STATE_STARTING;
 
         // build a map of all player states, whist we do this, let's hookup listeners for the
@@ -145,6 +147,10 @@ export default class BattleshipGame extends EventEmitter {
         };
 
         this.dispatchEvent({ type: 'shot-fired', attacker, defender, shot });
+
+        // todo: if all of the players ships are sunk then move into FINISH state
+
+        this._nextTurn();
 
     }
 
