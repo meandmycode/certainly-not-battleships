@@ -1,4 +1,4 @@
-const CHAR_CODE_START = 65; // letter A
+const CHAR_CODE_START = 65; // letter 'A'
 const ALPHABET_SIZE = 26;
 
 export function parse(str) {
