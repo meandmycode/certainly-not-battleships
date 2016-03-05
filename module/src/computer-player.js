@@ -59,14 +59,13 @@ export default class ComputerPlayer extends Player {
         // request an attack using our attack strategy behavior
         game.addEventListener('player-turn', e => {
 
-            if (e.player !== this) return;
+            if (e.player.player !== this) return;
 
             const attackStrategy = this._attackStrategy;
 
             const playerStates = [...game.playerStates.values()];
 
-            const opponentPlayerStates = playerStates
-                .filter(otherPlayerState => otherPlayerState !== state);
+            const opponentPlayerStates = playerStates.filter(otherPlayerState => otherPlayerState !== state);
 
             attackStrategy(state, opponentPlayerStates);
 

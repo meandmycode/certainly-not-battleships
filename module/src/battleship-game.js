@@ -135,32 +135,48 @@ export default class BattleshipGame extends EventEmitter {
         // todo: validate the player state can fire, and the position is correct and not already fired at
 
         const playerState = e.target;
+        const defenderState = e.opponent;
         const position = e.position;
 
-        const attacker = playerState.player;
-        const defender = e.player;
+        if (playerState !== this._activePlayerState) {
+            throw new Error(`ATTEMPT_TO_ATTACK_OUTSIDE_OF_TURN`);
+        }
 
-        // get the target players state
-        const defenderState = this.playerStates.get(defender);
+        if (defenderState.shotmap.get(...position) === 1) {
+            throw new Error(`Parameter 'position' must be a previously untargetted position.`);
+        }
+
+        // mark the grid position as attacked
+        defenderState.shotmap.set(...position, 1);
 
         // todo: validate defender state exists
 
-        const hitShip = defenderState.grid.getShipAtPosition(position);
+        const ship = defenderState.grid.getShipAtPosition(position);
 
         // the ship was sank if its health reaches zero
-        const wasSank = hitShip ? (--hitShip.health) === 0 : false;
+        const sank = ship ? (--ship.health) === 0 : false;
 
-        const shot = {
-            position,
-            hit: hitShip != null,
-            sank: wasSank,
-        };
+        // the player was defeated if all their ships reach zero health
+        const defeated = sank && defenderState.grid.ships.every(ship => ship.health === 0);
 
-        this.dispatchEvent({ type: 'shot-fired', attacker, defender, shot });
+        const attacker = playerState.player;
+        const defender = defenderState.player;
 
-        // todo: if all of the players ships are sunk then move into FINISH state
+        this.dispatchEvent({ type: 'shot-fired', attacker, defender, position, ship, sank });
 
-        this._nextTurn();
+        if (sank) {
+            this.dispatchEvent({ type: 'ship-sank', attacker, defender, position, ship });
+        }
+
+        if (defeated) {
+            this.dispatchEvent({ type: 'player-defeated', attacker, defender });
+
+            // todo: here we assume that only one player can be defeated to end the game
+            this.state = BattleshipGame.STATE_FINISH;
+
+        } else {
+            this._nextTurn();
+        }
 
     }
 
