@@ -59,8 +59,15 @@ export default class BattleshipGame extends EventEmitter {
 
         });
 
-        this.state = BattleshipGame.STATE_PLACEMENT;
+    }
 
+    start() {
+
+        if (this.state !== BattleshipGame.STATE_STARTING) {
+            throw new Error(`ATTEMPT_TO_START_ALREADY_STARTED_GAME`);
+        }
+
+        this.state = BattleshipGame.STATE_PLACEMENT;
     }
 
     get state() {
