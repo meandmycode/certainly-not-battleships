@@ -1,10 +1,5 @@
 import Matrix from './matrix.js';
 
-/**
- * Class representing a ship in battleships, it contains a matrix to
- * establish hit detection and health from the filled area of the matrix.
- */
-
 function calculateImpactArea(matrix) {
 
     let count = 0;
@@ -25,6 +20,10 @@ function calculateImpactArea(matrix) {
 
 }
 
+/**
+ * Class representing a ship in battleships, it contains a matrix to
+ * establish hit detection and health from the filled area of the matrix.
+ */
 export default class Ship {
 
     constructor(matrix) {
