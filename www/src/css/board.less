@@ -3,19 +3,47 @@
 .board {
     display: flex;
     margin: 50px 0;
-    height: 400px;
 
     .stage {
         display: flex;
-        height: 400px;
+        flex: 3;
+    }
+
+    .grid-item {
+        flex: auto;
+        position: relative;
+
+        &::before {
+            content: '';
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        .grid {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .commands {
+        flex: 1;
         border: 2px solid rgba(0, 0, 0, 0.75);
         display: flex;
         flex-flow: column;
         font-size: 1.2em;
-        width: 250px;
+
+        .log-wrap {
+            flex: 1;
+            position: relative;
+
+            .log {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+        }
 
         .log, input {
             padding: 0.5em 0.8em;
@@ -27,23 +55,24 @@
             font-weight: bold;
             list-style: none;
             margin: 0;
-            flex: 1;
             display: flex;
             flex-flow: column;
             justify-content: flex-end;
         }
 
         li {
-            animation: fade-back 2s 3s forwards ease-out;
-        }
-
-        li[data-type=response] {
+            margin-top: 0.8em;
             font-size: 0.8em;
-            color: rgba(0, 0, 0, 0.5);
+            animation: fade-back 4s 10s forwards ease-out;
         }
 
-        li[data-type=response] + li[data-type=request] {
-            margin-top: 0.7em;
+        li[data-player-type=self] {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        li[data-player-type=opponent] {
+            text-align: right;
+            color: rgba(0, 0, 0, 0.5);
         }
 
         input {
@@ -59,11 +88,6 @@
                 text-align: center;
             }
         }
-    }
-
-    .grid {
-        width: 400px;
-        flex-shrink: 0;
     }
 
     .opponent-grid .cell:not(.header-cell):not([data-state]) {
@@ -162,7 +186,7 @@
         }
     }
 
-    .grid + .grid, .commands {
+    .grid-item + .grid-item, .commands {
         margin-left: 20px;
     }
 }

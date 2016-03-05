@@ -15,6 +15,9 @@ const player = new Player();
 
 function createGrid([columns, rows]) {
 
+    const gridItemElement = document.createElement('div');
+    gridItemElement.classList.add('grid-item');
+
     const gridElement = document.createElement('div');
     gridElement.classList.add('grid');
 
@@ -49,7 +52,9 @@ function createGrid([columns, rows]) {
 
     }
 
-    return gridElement;
+    gridItemElement.appendChild(gridElement);
+
+    return gridItemElement;
 
 }
 
@@ -138,9 +143,22 @@ function onStartGame(dimensions) {
         cell.dataset.state = e.ship ? 'hit' : 'miss';
 
         if (e.attacker === player) {
-            log(`Firing at ${cellref.stringify(e.position)}`, 'response');
+            if (e.sank) {
+                log(`Enemy ship was sank at ${cellref.stringify(e.position)}!`, 'response');
+            } else if (e.ship) {
+                log(`Enemy ship hit at ${cellref.stringify(e.position)}!`, 'response');
+            } else {
+                log(`We hit nothing at ${cellref.stringify(e.position)}`, 'response');
+            }
         } else {
-            log(`Under fire at ${cellref.stringify(e.position)}`, 'response');
+            if (e.sank) {
+                log(`Our ship was sank at ${cellref.stringify(e.position)}!`, 'response', 'opponent');
+            } else if (e.ship) {
+                log(`Our ship was hit at ${cellref.stringify(e.position)}!`, 'response', 'opponent');
+            } else {
+                log(`Opponent hit nothing at ${cellref.stringify(e.position)}`, 'response', 'opponent');
+            }
+
         }
 
     });
@@ -165,11 +183,12 @@ function onStartGame(dimensions) {
 
 }
 
-function log(entry, type) {
+function log(entry, type, playerType = 'self') {
 
     const commandRecordElement = document.createElement('li');
     commandRecordElement.dataset.type = type;
-    commandRecordElement.textContent = entry;
+    commandRecordElement.dataset.playerType = playerType;
+    commandRecordElement.innerHTML = entry;
 
     logListElement.appendChild(commandRecordElement);
 
@@ -177,7 +196,7 @@ function log(entry, type) {
 
 function fireAt(coordinate, textCommand) {
 
-    log(textCommand || `Fire at ${cellref.stringify(coordinate)}`, 'request');
+    // log(textCommand || `Fire at ${cellref.stringify(coordinate)}`, 'request');
 
     const game = currentGame;
     const state = game.playerStates.get(player);
