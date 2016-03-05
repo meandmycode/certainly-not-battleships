@@ -16,27 +16,35 @@ const rotations = [
 
 const MAX_TRIES = 255;
 
-function* getEveryPossiblePosition([width, height]) {
+function getEveryPossiblePosition([width, height]) {
+
+    const positions = [];
 
     for (let column = 0; column < width; column++) {
         for (let row = 0; row < height; row++) {
 
             const position = [column, row];
 
-            yield position;
+            positions.push(position);
 
         }
     }
+
+    return positions;
 }
 
-function* getEveryPossiblePlacement(dimensions) {
+function getEveryPossiblePlacement(dimensions) {
+
+    const placements = [];
 
     for (let position of getEveryPossiblePosition(dimensions)) {
 
         for (let rotation of rotations) {
-            yield [position, rotation];
+            placements.push([position, rotation]);
         }
     }
+
+    return placements;
 
 }
 
