@@ -152,11 +152,20 @@ export default class GridSelectionStrategy {
             // select a random opponent
             const [opponentPlayerState] = opponentPlayerStates::shuffled();
 
-            const [position] = getEveryPossiblePosition(opponentPlayerState.grid.dimensions)::shuffled();
+            const positions = getEveryPossiblePosition(opponentPlayerState.grid.dimensions)::shuffled();
 
-            // todo: get random positions until we find a valid position to fire at
+            for (let position of positions) {
 
-            playerState.fire(opponentPlayerState.player, position);
+                // once we find a position that hasn't been fired at, fire and stop
+                if (opponentPlayerState.shotmap.get(...position) !== 1) {
+
+                    playerState.fire(opponentPlayerState, position);
+
+                    break;
+
+                }
+
+            }
 
         };
 
