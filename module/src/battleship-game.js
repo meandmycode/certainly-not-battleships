@@ -128,6 +128,10 @@ export default class BattleshipGame extends EventEmitter {
 
     _onPlayerFire(e) {
 
+        if (this.state !== BattleshipGame.STATE_ATTACK) {
+            throw new Error(`ATTEMPT_TO_ATTACK_DURING_NON_ATTACK_PHASE`);
+        }
+
         // todo: validate the player state can fire, and the position is correct and not already fired at
 
         const playerState = e.target;
