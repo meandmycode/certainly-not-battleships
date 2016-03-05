@@ -15,7 +15,7 @@ export default class Grid {
         // upcast our position coordinates to a matrix that can be intersected
         position = new Matrix([[1]]).placeAt(position);
 
-        return this.ships.find(ship => ship.matrix.intersects([position]));
+        return this.ships.find(ship => ship.computed.intersects([position]));
     }
 
 }
