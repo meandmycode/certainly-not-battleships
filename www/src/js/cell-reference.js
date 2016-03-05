@@ -12,7 +12,6 @@ export function find(reference) {
 
 }
 
-
 export function stringify(reference) {
     return alphanumber.stringify(reference[1] + 1) + (reference[0] + 1);
 }
