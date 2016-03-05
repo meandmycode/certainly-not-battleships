@@ -1,5 +1,6 @@
 import Matrix from './matrix.js';
 
+// todo: merge behaviour here into player-state
 export default class Grid {
 
     constructor(dimensions, ships) {
