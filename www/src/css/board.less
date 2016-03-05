@@ -61,6 +61,7 @@
         }
 
         li {
+            flex-shrink: 0;
             margin-top: 0.8em;
             font-size: 0.8em;
             animation: fade-back 4s 10s forwards ease-out;
@@ -75,8 +76,14 @@
             color: rgba(0, 0, 0, 0.5);
         }
 
+        form {
+            display: flex; // fixes extra margin under the input in ie
+        }
+
         input {
+            appearance: none;
             background: rgba(0, 0, 0, 0.05);
+            box-shadow: none; // remove default firefox :invalid style
             outline: none;
             border: none;
             border-top: 1px solid rgba(0, 0, 0, 0.3);
@@ -109,7 +116,7 @@
         }
 
         .cell {
-            flex: auto;
+            flex: 1;
             background: no-repeat center center;
             background-size: 65%;
             position: relative;
