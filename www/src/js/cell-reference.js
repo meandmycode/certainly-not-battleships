@@ -8,11 +8,11 @@ export function find(reference) {
 
     const [, rowIdentifier, columnIdentifier] = match;
 
-    return [parseInt(columnIdentifier, 10), alphanumber.parse(rowIdentifier)];
+    return [parseInt(columnIdentifier, 10) - 1, alphanumber.parse(rowIdentifier) - 1];
 
 }
 
 
 export function stringify(reference) {
-    return alphanumber.stringify(reference[1]) + reference[0];
+    return alphanumber.stringify(reference[1] + 1) + (reference[0] + 1);
 }
