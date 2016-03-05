@@ -49,6 +49,8 @@ function getRandomPlacement(ships, dimensions, currentTry = 0) {
     const placements = new Map();
     const placementMatrices = [];
 
+    const [columns, rows] = dimensions;
+
     for (let ship of ships) {
 
         let wasPlaced = false;
