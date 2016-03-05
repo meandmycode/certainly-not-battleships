@@ -1,3 +1,6 @@
+import './platform.js';
+import './lib/regenerator-runtime.js';
+
 import BattleshipGame from '../bower_components/battleships-module/src/battleship-game.js';
 import Player from '../bower_components/battleships-module/src/player.js';
 import ComputerPlayer from '../bower_components/battleships-module/src/computer-player.js';
