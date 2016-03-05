@@ -191,18 +191,6 @@ document.addEventListener('click', e => {
 
 });
 
-function findCellReference(command) {
-
-    const possibleCellReference = command.match(/\b([A-Za-z]+)([0-9]+)\b/);
-
-    if (possibleCellReference == null) return null;
-
-    const [, rowIdentifier, columnIdentifier] = possibleCellReference;
-
-    return [parseInt(columnIdentifier, 10), alphanumber.parse(rowIdentifier)];
-
-}
-
 function processCommand(command) {
 
     const possibleCellReference = cellref.find(command);
