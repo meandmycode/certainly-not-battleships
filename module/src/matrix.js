@@ -164,14 +164,14 @@ export default class Matrix {
     }
 
     static get ROTATION_90() {
-        return 1;
+        return 90;
     }
 
     static get ROTATION_180() {
-        return 2;
+        return 180;
     }
 
     static get ROTATION_270() {
-        return 3;
+        return 270;
     }
 }
