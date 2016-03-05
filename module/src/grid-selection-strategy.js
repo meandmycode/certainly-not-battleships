@@ -1,4 +1,3 @@
-import Grid from './grid.js';
 import Matrix from './matrix.js';
 import { shuffled, randomInteger } from './utils.js';
 
