@@ -63,7 +63,7 @@ function getRandomPlacement(ships, dimensions, currentTry = 0) {
                 .placeAt(position);
 
             // the ship was placed if it's geometry didn't intersect
-            wasPlaced = matrix.intersects(placementMatrices) !== true;
+            wasPlaced = rows >= matrix.rows && columns >= matrix.columns && matrix.intersects(placementMatrices) !== true;
 
             // if we managed to find a place for the geometry, then stop
             if (wasPlaced) {
