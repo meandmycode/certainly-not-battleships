@@ -1,0 +1,6 @@
+{
+  "name": "-",
+  "dependencies": {
+    "battleships-module": "../module"
+  }
+}

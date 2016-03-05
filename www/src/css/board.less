@@ -1,0 +1,182 @@
+@import "config";
+
+.board {
+    display: flex;
+    margin: 50px 0;
+    height: 400px;
+
+    .stage {
+        display: flex;
+        height: 400px;
+    }
+
+    .commands {
+        border: 2px solid rgba(0, 0, 0, 0.75);
+        display: flex;
+        flex-flow: column;
+        font-size: 1.2em;
+        width: 250px;
+
+        .log, input {
+            padding: 0.5em 0.8em;
+        }
+
+        .log {
+            overflow-y: scroll;
+            text-transform: uppercase;
+            font-weight: bold;
+            list-style: none;
+            margin: 0;
+            flex: 1;
+            display: flex;
+            flex-flow: column;
+            justify-content: flex-end;
+        }
+
+        li {
+            animation: fade-back 2s 3s forwards ease-out;
+        }
+
+        li[data-type=response] {
+            font-size: 0.8em;
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        li[data-type=response] + li[data-type=request] {
+            margin-top: 0.7em;
+        }
+
+        input {
+            background: rgba(0, 0, 0, 0.05);
+            outline: none;
+            border: none;
+            border-top: 1px solid rgba(0, 0, 0, 0.3);
+            resize: none;
+            min-height: 78px; // visual alignment with adjacent grid rows
+            width: 100%;
+
+            &::placeholder {
+                text-align: center;
+            }
+        }
+    }
+
+    .grid {
+        width: 400px;
+        flex-shrink: 0;
+    }
+
+    .opponent-grid .cell:not(.header-cell):not([data-state]) {
+        cursor: crosshair;
+
+        &:hover {
+            background-color: darken(rgba(0, 0, 0, 0.05), 20%);
+        }
+    }
+
+    .grid {
+        display: flex;
+        flex-flow: column;
+        counter-reset: column -1 row -1;
+
+        .row {
+            display: flex;
+            flex: auto;
+        }
+
+        .cell {
+            flex: auto;
+            background: no-repeat center center;
+            position: relative;
+
+            &[data-state=hit] {
+                background: lime;
+            }
+
+            &[data-state=miss] {
+                background-image: url(img/cross.svg);
+                background-size: 65%;
+            }
+
+            .ship-container, .ship {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+
+            .ship {
+                background: rgba(0, 0, 0, 0.2);
+                transform-origin: 50% 0;
+            }
+        }
+
+        .header-cell::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-row {
+
+            .header-cell {
+                counter-increment: column;
+            }
+
+            .header-cell + .header-cell::before {
+                content: counter(column);
+            }
+        }
+
+        .row {
+            counter-increment: row;
+        }
+
+        .row:not(.header-row) .header-cell {
+
+            &::before {
+                content: counter(row, upper-alpha);
+            }
+        }
+
+        .cell::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .row + .row .cell::after {
+            border-top: 1px solid darken(rgba(0, 0, 0, 0.3), 14%);
+        }
+
+        .cell + .cell::after {
+            border-left: 1px solid darken(rgba(0, 0, 0, 0.3), 14%);
+        }
+
+        .header-row + .row .cell::after {
+            border-top: 2px solid rgba(0, 0, 0, 0.75);
+        }
+
+        .header-cell:first-child + .cell::after {
+            border-left: 2px solid rgba(0, 0, 0, 0.75);
+        }
+    }
+
+    .grid + .grid, .commands {
+        margin-left: 20px;
+    }
+}
+
+@keyframes fade-back {
+
+    to {
+        opacity: 0.3;
+    }
+}

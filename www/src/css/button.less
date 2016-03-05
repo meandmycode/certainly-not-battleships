@@ -1,0 +1,21 @@
+@import "config";
+
+.button {
+    background: @that-accent-color-you-like;
+    color: #333;
+    line-height: 1;
+    border-radius: 6px;
+    padding: 0.4em 0.9em;
+    font-weight: bold;
+    font-size: 1.6em;
+    display: inline-flex;
+    cursor: pointer;
+    filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.6));
+
+    transition: background 120ms ease-out;
+    will-change: background;
+
+    &:hover {
+        background: darken(@that-accent-color-you-like, 20%);
+    }
+}
