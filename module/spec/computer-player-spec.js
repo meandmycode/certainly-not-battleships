@@ -67,8 +67,17 @@ describe('ComputerPlayer',  () => {
 
         const computer = new ComputerPlayer({ placementStrategy, attackStrategy });
 
+        const playerStates = new Map();
+
+        const state = {};
+        const otherPlayerState = {};
+
+        playerStates.set(computer, state);
+        playerStates.set({}, otherPlayerState);
+
         const game = {
             state: BattleshipGame.STATE_STARTING,
+            playerStates,
             addEventListener(type, listener) {
 
                 if (type === 'player-turn') {
@@ -78,11 +87,9 @@ describe('ComputerPlayer',  () => {
             }
         };
 
-        const state = {};
-
         computer.dispatchEvent({ type: 'joined-game', game, state });
 
-        expect(attackStrategy).toHaveBeenCalledWith(state);
+        expect(attackStrategy).toHaveBeenCalledWith(state, [otherPlayerState]);
 
     })
 

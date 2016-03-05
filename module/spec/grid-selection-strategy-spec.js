@@ -2,7 +2,7 @@ import GridSelectionStrategy from '../src/grid-selection-strategy.js';
 import Grid from '../src/grid.js';
 import PlayerState from '../src/player-state.js';
 import Ship from '../src/ship.js';
-import { Rectangle } from '../src/shape.js';
+import Matrix from '../src/matrix.js';
 
 describe('GridSelectionStrategy',  () => {
 
@@ -12,7 +12,7 @@ describe('GridSelectionStrategy',  () => {
 
             const player = {};
 
-            const ship = new Ship(new Rectangle(1, 1));
+            const ship = new Ship(Matrix.rectangle(1, 1));
 
             const ships = [ship];
 
@@ -22,35 +22,30 @@ describe('GridSelectionStrategy',  () => {
 
             GridSelectionStrategy.RANDOM_PLACEMENT(playerState);
 
-            expect(ship.geometry.position).toEqual([jasmine.any(Number), jasmine.any(Number)]);
+            expect(ship.position).toEqual([jasmine.any(Number), jasmine.any(Number)]);
 
         })
 
     })
 
-    describe('RANDOM_ATTACK',  () => {
+    describe('RANDOM_ATTACK', () => {
 
         it('should attack at any random valid coordinate', () => {
 
-            const player = {};
+            const playerState = jasmine.createSpyObj('PlayerState', ['fire'])
 
-            const ship = new Ship(new Rectangle(1, 1));
+            const opponentPlayerState = {
+                player: {},
+                grid: {
+                    dimensions: [10, 10],
+                    width: 10,
+                    height: 10
+                }
+            };
 
-            const ships = [ship];
+            GridSelectionStrategy.RANDOM_ATTACK(playerState, [opponentPlayerState]);
 
-            const grid = new Grid([10, 20], ships);
-
-            const playerState = new PlayerState({ player, grid });
-
-            const fireSpy = jasmine.createSpy();
-
-            GridSelectionStrategy.RANDOM_ATTACK(playerState);
-
-            game.addEventListener('shot-fired', fireSpy);
-
-            expect(fireSpy).toHaveBeenCalledWith({
-                type: 'shot-fired',
-            });
+            expect(playerState.fire).toHaveBeenCalledWith(opponentPlayerState.player, [jasmine.any(Number), jasmine.any(Number)]);
 
         })
 

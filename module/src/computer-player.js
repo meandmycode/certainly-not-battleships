@@ -61,11 +61,14 @@ export default class ComputerPlayer extends Player {
 
             if (e.player !== this) return;
 
-            const targetPlayerState = null; // todo: we need to select the player to attack
-
             const attackStrategy = this._attackStrategy;
 
-            attackStrategy(state, targetPlayerState);
+            const playerStates = [...game.playerStates.values()];
+
+            const opponentPlayerStates = playerStates
+                .filter(otherPlayerState => otherPlayerState !== state);
+
+            attackStrategy(state, opponentPlayerStates);
 
         });
 

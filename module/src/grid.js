@@ -1,14 +1,4 @@
-function createGridArray(width, height) {
-
-    const columns = new Array(width);
-
-    for (let column = 0; column < width; column++) {
-        columns[column] = new Array(height);
-    }
-
-    return columns;
-
-}
+import Matrix from './matrix.js';
 
 export default class Grid {
 
@@ -16,13 +6,16 @@ export default class Grid {
         this.dimensions = dimensions;
         this.width = dimensions[0];
         this.height = dimensions[1];
-        this._grid = createGridArray(this.width, this.height);
         this.ships = ships;
     }
 
     // iterate our ships and see if any are hit by this attack
     getShipAtPosition(position) {
-        return this.ships.find(ship => ship.geometry.intersectsPoint(position));
+
+        // upcast our position coordinates to a matrix that can be intersected
+        position = new Matrix([[1]]).placeAt(position);
+
+        return this.ships.find(ship => ship.matrix.intersects([position]));
     }
 
 }

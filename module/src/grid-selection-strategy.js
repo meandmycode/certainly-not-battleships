@@ -1,5 +1,5 @@
 import Grid from './grid.js';
-import { Shape } from './shape.js';
+import Matrix from './matrix.js';
 import { shuffled, randomInteger } from './utils.js';
 
 /*
@@ -9,64 +9,48 @@ import { shuffled, randomInteger } from './utils.js';
  */
 
 const rotations = [
-    Shape.ROTATION_0,
-    Shape.ROTATION_90,
-    Shape.ROTATION_180,
-    Shape.ROTATION_270,
+    Matrix.ROTATION_0,
+    Matrix.ROTATION_90,
+    Matrix.ROTATION_180,
+    Matrix.ROTATION_270,
 ];
 
 const MAX_TRIES = 255;
 
-function* getEveryPossiblePlacement([width, height]) {
+function* getEveryPossiblePosition([width, height]) {
 
-    for (let column = 1; column < width; column++) {
-        for (let row = 1; row < height; row++) {
+    for (let column = 0; column < width; column++) {
+        for (let row = 0; row < height; row++) {
 
             const position = [column, row];
 
-            for (let rotation of rotations) {
-                yield [position, rotation];
-            }
+            yield position;
+
+        }
+    }
+}
+
+function* getEveryPossiblePlacement(dimensions) {
+
+    for (let position of getEveryPossiblePosition(dimensions)) {
+
+        for (let rotation of rotations) {
+            yield [position, rotation];
         }
     }
 
 }
 
-function rectanglesIntersect(a, b) {
-    return false;
-}
-
-function aabb(rectangleGeometry) {
-
-    // todo: return normalized rectangle
-
-}
-
-function intersects(geometries) {
-
-    const geometry = this;
-
-    for (let otherGeometry of geometries) {
-
-        // devnote: we assume all geometries are rectangles
-
-        if (rectanglesIntersect(geometry, otherGeometry)) return true;
-
-    }
-
-    return false;
-
-}
-
-function getRandomPlacement(items, geometrySelector, dimensions, currentTry = 0) {
+function getRandomPlacement(ships, dimensions, currentTry = 0) {
 
     if (currentTry > MAX_TRIES) {
         throw new Error(`UNABLE_TO_SMART`);
     }
 
     const placements = new Map();
+    const placementMatrices = [];
 
-    for (let item of items) {
+    for (let ship of ships) {
 
         let wasPlaced = false;
 
@@ -74,18 +58,18 @@ function getRandomPlacement(items, geometrySelector, dimensions, currentTry = 0)
 
         for (let [position, rotation] of possiblePlacements) {
 
-            const geometry = geometrySelector(item);
-            geometry.position = position;
-            geometry.rotation = rotation;
+            const matrix = ship.matrix
+                .placeAt(position)
+                .turn(rotation);
 
-            const placed = [...placements.values()];
-
-            wasPlaced = geometry::intersects(placed) !== true;
+            // the ship was placed if it's geometry didn't intersect
+            wasPlaced = matrix.intersects(placementMatrices) !== true;
 
             // if we managed to find a place for the geometry, then stop
             if (wasPlaced) {
 
-                placements.set(item, [position, rotation]);
+                placements.set(ship, [position, rotation]);
+                placementMatrices.push(matrix);
 
                 break;
 
@@ -95,7 +79,7 @@ function getRandomPlacement(items, geometrySelector, dimensions, currentTry = 0)
         // if we failed to place geometry in any of the possible positions on
         // the grid, then we need to retry placing all geometries again
         if (wasPlaced !== true) {
-            return getRandomPlacement(items, geometrySelector, dimensions, currentTry + 1);
+            return getRandomPlacement(ships, dimensions, currentTry + 1);
         }
     }
 
@@ -140,14 +124,14 @@ export default class GridSelectionStrategy {
             // todo: this should be part of random placement
             // ships.sort((a, b) => a.geometry.area - b.geometry.area);
 
-            const placements = getRandomPlacement(ships, ship => ship.geometry.clone(), playerState.grid.dimensions);
+            const placements = getRandomPlacement(ships, playerState.grid.dimensions);
 
             // if we got this far then let's assign the placement positions of all our ships
 
             for (let [ship, [position, rotation]] of placements) {
 
-                ship.geometry.position = position;
-                ship.geometry.rotation = rotation;
+                ship.position = position;
+                ship.rotation = rotation;
 
             }
 
@@ -162,8 +146,17 @@ export default class GridSelectionStrategy {
      */
     static get RANDOM_ATTACK() {
 
-        return (playerState, targetPlayerState) => {
-            throw new Error(`NOT_IMPLEMENTED`);
+        return (playerState, opponentPlayerStates) => {
+
+            // select a random opponent
+            const [opponentPlayerState] = opponentPlayerStates::shuffled();
+
+            const [position] = getEveryPossiblePosition(opponentPlayerState.grid.dimensions)::shuffled();
+
+            // todo: get random positions until we find a valid position to fire at
+
+            playerState.fire(opponentPlayerState.player, position);
+
         };
 
     }

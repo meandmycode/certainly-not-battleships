@@ -2,7 +2,7 @@ import EventEmitter from './event-emitter.js';
 import PlayerState from './player-state.js';
 import Grid from './grid.js';
 import Ship from './ship.js';
-import { Rectangle } from './shape.js';
+import Matrix from './matrix.js';
 import { toMap, getRelativeItem } from './utils.js';
 
 /**
@@ -42,9 +42,9 @@ export default class BattleshipGame extends EventEmitter {
 
         // build a map of all player states, whist we do this, let's hookup listeners for the
         // player state's state changing so we can automatically change our game state.
-        this._playerStates = players::toMap(player => player, player => {
+        this.playerStates = players::toMap(player => player, player => {
 
-            const ships = rules.ships.map(shape => new Ship(shape.clone()));
+            const ships = rules.ships.map(shape => new Ship(shape));
 
             const grid = new Grid(rules.grid, ships);
 
@@ -81,17 +81,13 @@ export default class BattleshipGame extends EventEmitter {
 
     }
 
-    getPlayerState(player) {
-        return this._playerStates.get(player);
-    }
-
     _nextTurn() {
 
         // here we establish a running order for each player, this will be based on the
         // order the players were provided to the game; any player state actions must
         // be validated to be acceptable only when they are the active player.
 
-        const playerStates = [...this._playerStates.values()];
+        const playerStates = [...this.playerStates.values()];
 
         const currentPlayerState = this._activePlayerState;
 
@@ -112,7 +108,7 @@ export default class BattleshipGame extends EventEmitter {
         // state, if the player state changes after this it is meaningless.
         if (this.state !== BattleshipGame.STATE_PLACEMENT) return;
 
-        const playerStates = [...this._playerStates.values()]
+        const playerStates = [...this.playerStates.values()]
 
         // check if all players are marked as ready, if so, let battle commence
         if (playerStates.every(playerState => playerState.ready)) {
@@ -132,7 +128,7 @@ export default class BattleshipGame extends EventEmitter {
         const defender = e.player;
 
         // get the target players state
-        const defenderState = this.getPlayerState(defender);
+        const defenderState = this.playerStates.get(defender);
 
         // todo: validate defender state exists
 
@@ -201,9 +197,9 @@ export default class BattleshipGame extends EventEmitter {
         return {
             grid: [10, 10],
             ships: [
-                new Rectangle(1, 5), // Aircraft carrier
-                new Rectangle(1, 4), // Battleship a
-                new Rectangle(1, 4), // Battleship b
+                Matrix.rectangle(1, 5), // Aircraft carrier
+                Matrix.rectangle(1, 4), // Battleship a
+                Matrix.rectangle(1, 4), // Battleship b
             ]
         };
     }

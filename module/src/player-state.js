@@ -3,11 +3,10 @@ import EventEmitter from './event-emitter.js';
 /** Class representing a players state within a game of battleships. */
 export default class PlayerState extends EventEmitter {
 
-    constructor({ player, grid, ships } = {}) {
+    constructor({ player, grid } = {}) {
         super();
         this.player = player;
         this.grid = grid;
-        this.ships = ships;
         this._ready = false;
     }
 
