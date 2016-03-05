@@ -22,6 +22,7 @@ html {
     color: #1b201e;
     user-select: none;
     cursor: default;
+    height: 100%;
 
     transition: opacity 300ms 150ms ease-out;
     will-change: opacity;
@@ -32,11 +33,18 @@ html {
     }
 }
 
+html {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+}
+
 body {
     display: flex;
     flex-flow: column;
-    align-items: flex-start;
-    padding: 50px;
+    max-width: 1300px;
+    padding: 0;
 }
 
 textarea, input, button {
@@ -44,23 +52,7 @@ textarea, input, button {
     font-size: inherit;
 }
 
-h1, h2 {
-    text-transform: uppercase;
-    line-height: 1.15;
-    margin: 0;
-}
-
-h1 {
-    font-weight: 700;
-    font-size: 2.5em;
-    margin: 0;
-}
-
-h2 {
-    font-weight: 500;
-    font-size: 1.7em;
-    color: rgba(0, 0, 0, 0.6);
-}
-
-@import "button.less";
-@import "board.less";
+@import "game-header";
+@import "button";
+@import "dialog";
+@import "board";

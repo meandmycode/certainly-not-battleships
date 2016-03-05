@@ -8,6 +8,8 @@ import * as cellref from './cell-reference.js';
 const stageElement = document.querySelector('.board .stage');
 const logListElement = document.querySelector('.board .commands .log');
 const commandInputElement = document.querySelector('.board .commands input');
+const winningDialogElement = document.querySelector('.winning-dialog-host');
+const losingDialogElement = document.querySelector('.game-over-dialog-host');
 
 const player = new Player();
 
@@ -93,6 +95,8 @@ function onStartGame(dimensions) {
 
     logListElement.innerHTML = '';
     commandInputElement.value = '';
+    winningDialogElement.hidden = true;
+    losingDialogElement.hidden = true;
 
     // place our ships random and render them
 
@@ -101,29 +105,27 @@ function onStartGame(dimensions) {
     // use automated random placement by default
     GridSelectionStrategy.RANDOM_PLACEMENT(playerState);
 
-    for (let ship of playerState.grid.ships) {
+    playerState.ready = true;
 
-        // todo: render ship matrices
+    const playerCells = [...playerGrid.querySelectorAll('.cell[data-row][data-column]')];
 
-        // const cell = playerGrid::getCellByCoordinate(ship.position);
+    for (let cell of playerCells) {
 
-        // const shipContainerElement = document.createElement('div');
-        // shipContainerElement.ship = ship;
-        // shipContainerElement.classList.add('ship-container');
-        // shipContainerElement.dataset.width = ship.geometry.width;
-        // shipContainerElement.dataset.height = ship.geometry.height;
-        // shipContainerElement.dataset.rotation = ship.geometry.rotation;
-        // shipContainerElement.style.transform = `rotate(${ship.geometry.rotation * 90}deg)`;
+        const row = parseInt(cell.dataset.row, 10);
+        const column = parseInt(cell.dataset.column, 10);
 
-        // const shipElement = document.createElement('div');
-        // shipElement.classList.add('ship');
-        // shipElement.style.transform = `scale(${ship.geometry.width}, ${ship.geometry.height})`;
+        for (let ship of playerState.grid.ships) {
 
-        // shipContainerElement.appendChild(shipElement);
+            const value = ship.computed.get(row, column);
 
-        // cell.appendChild(shipContainerElement);
-
+            if (value === 1) {
+                cell.classList.add('hittable');
+            }
+        }
     }
+
+    game.addEventListener('player-turn', e => {
+    });
 
     game.addEventListener('shot-fired', e => {
 
@@ -131,13 +133,35 @@ function onStartGame(dimensions) {
         const grid = e.attacker === player ? opponentGrid : playerGrid;
 
         // find the cell within the grid that matches the column and row
-        const cell = grid::getCellByCoordinate(e.shot.position);
+        const cell = grid::getCellByCoordinate(e.position);
 
-        cell.dataset.state = e.shot.hit ? 'hit' : 'miss';
+        cell.dataset.state = e.ship ? 'hit' : 'miss';
 
-        log(`Firing at ${cellref.stringify(e.shot.position)}`, 'response');
+        if (e.attacker === player) {
+            log(`Firing at ${cellref.stringify(e.position)}`, 'response');
+        } else {
+            log(`Under fire at ${cellref.stringify(e.position)}`, 'response');
+        }
 
     });
+
+    game.addEventListener('player-defeated', e => {
+
+        // give the player a delay before showing the finish dialog
+
+        setTimeout(() => {
+
+            if (e.attacker === player) {
+                winningDialogElement.hidden = false;
+            } else {
+                losingDialogElement.hidden = false;
+            }
+
+        }, 1000);
+
+    })
+
+    game.start();
 
 }
 
@@ -177,6 +201,16 @@ document.addEventListener('click', e => {
 
     // todo: by options
     onStartGame([10, 10]);
+
+});
+
+document.addEventListener('click', e => {
+
+    if (e.target.matches('.dialog-host') !== true) {
+        return;
+    }
+
+    e.target.hidden = true;
 
 });
 
