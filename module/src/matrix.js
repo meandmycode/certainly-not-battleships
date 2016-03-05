@@ -108,8 +108,12 @@ export default class Matrix {
 
     }
 
-    value(row, column) {
-        return row > this.rows ? undefined : this.data[row][column];
+    get(row, column) {
+        return row >= this.rows ? undefined : this.data[row][column];
+    }
+
+    set(row, column, value) {
+        this.data[row][column] = value;
     }
 
     intersects(matrices) {
@@ -119,13 +123,13 @@ export default class Matrix {
         for (let row = 0; row < this.rows; row++) {
             for (let column = 0; column < this.columns; column++) {
 
-                const value = this.data[row][column];
+                const value = this.get(row, column);
 
                 if (value === 1) {
 
                     for (let otherMatrix of matrices) {
 
-                        const otherValue = otherMatrix.value(row, column);
+                        const otherValue = otherMatrix.get(row, column);
 
                         if (otherValue === 1) {
                             return true;
