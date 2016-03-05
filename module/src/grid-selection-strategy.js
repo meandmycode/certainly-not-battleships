@@ -59,8 +59,8 @@ function getRandomPlacement(ships, dimensions, currentTry = 0) {
         for (let [position, rotation] of possiblePlacements) {
 
             const matrix = ship.matrix
-                .placeAt(position)
-                .turn(rotation);
+                .turn(rotation)
+                .placeAt(position);
 
             // the ship was placed if it's geometry didn't intersect
             wasPlaced = matrix.intersects(placementMatrices) !== true;

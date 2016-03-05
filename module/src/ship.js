@@ -64,7 +64,7 @@ export default class Ship {
         // todo: if position or rotation haven't yet been set, then throw
 
         if (this._computed == null) {
-            this._computed = this.matrix.placeAt(this.position).turn(this.rotation);
+            this._computed = this.matrix.turn(this.rotation).placeAt(this.position);
         }
 
         return this._computed;
