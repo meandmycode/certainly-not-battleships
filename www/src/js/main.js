@@ -16,28 +16,28 @@ function createGrid([columns, rows]) {
     const gridElement = document.createElement('div');
     gridElement.classList.add('grid');
 
-    for (let row = 0; row < rows; row++) {
+    for (let row = -1; row < rows; row++) {
 
         const rowElement = document.createElement('div');
         rowElement.classList.add('row');
 
-        if (row === 0) {
+        if (row === -1) {
             rowElement.classList.add('header-row');
         }
 
-        for (let column = 0; column < columns; column++) {
+        for (let column = -1; column < columns; column++) {
 
             const cellElement = document.createElement('div');
             cellElement.classList.add('cell');
 
-            if (row === 0 || column === 0) {
+            if (row === -1 || column === -1) {
                 cellElement.classList.add('header-cell');
             } else {
                 cellElement.classList.add('interactive-cell');
-            }
 
-            cellElement.dataset.column = column;
-            cellElement.dataset.row = row;
+                cellElement.dataset.column = column;
+                cellElement.dataset.row = row;
+            }
 
             rowElement.appendChild(cellElement);
 
