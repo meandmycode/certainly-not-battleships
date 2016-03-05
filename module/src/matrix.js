@@ -1,15 +1,3 @@
-function matrixFromDimensions(width, height) {
-
-    const matrix = new Array(height);
-
-    for(let row = 0; row < height; row ++) {
-        matrix.push(new Array(width).fill(1));
-    }
-
-    return matrix;
-
-}
-
 function normalizeDegrees(degrees) {
 
     degrees %= 360;
