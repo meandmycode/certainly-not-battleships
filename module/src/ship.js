@@ -28,7 +28,6 @@ export default class Ship {
 
     constructor(matrix) {
         this._matrix = matrix;
-        this._rotation = Matrix.ROTATION_0;
         this._computed = null;
         this.health = calculateImpactArea(matrix);
     }
