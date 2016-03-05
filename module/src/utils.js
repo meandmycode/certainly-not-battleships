@@ -63,7 +63,7 @@ export function getRelativeItem(item, offset) {
 
 export function shuffled() {
 
-    const array = [...this];
+    const array = this;
     const result = Array(length);
     const length = array.length;
 
