@@ -113,7 +113,9 @@ export default class BattleshipGame extends EventEmitter {
 
         // we only care about the player ready state changing during placement
         // state, if the player state changes after this it is meaningless.
-        if (this.state !== BattleshipGame.STATE_PLACEMENT) return;
+        if (this.state !== BattleshipGame.STATE_PLACEMENT) {
+            return;
+        }
 
         const playerStates = [...this.playerStates.values()]
 
