@@ -156,13 +156,14 @@ function fireAt(coordinate, textCommand) {
     log(textCommand || `Fire at ${cellref.stringify(coordinate)}`, 'request');
 
     const game = currentGame;
-
-    // find the first player that is not us
-    const opponent = game.players.find(otherPlayer => otherPlayer !== player);
-
     const state = game.playerStates.get(player);
 
-    state.fire(opponent, coordinate);
+    const playerStates = [...game.playerStates.values()];
+
+    // find the first player that is not us
+    const opponentState = playerStates.find(otherPlayerState => otherPlayerState !== state);
+
+    state.fire(opponentState, coordinate);
 
 }
 
