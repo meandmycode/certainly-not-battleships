@@ -144,7 +144,14 @@ export default class Matrix {
     }
 
     clone() {
-        return new Matrix(this.rows, this.columns, [...this.data]);
+
+        const data = new Array(this.rows);
+
+        for(let row = 0; row < this.rows; row ++) {
+            data[row] = [...this.data[row]];
+        }
+
+        return new Matrix(this.rows, this.columns, data);
     }
 
     static rectangle(width, height) {
