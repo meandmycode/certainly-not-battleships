@@ -170,7 +170,9 @@ document.addEventListener('click', e => {
 
     const startButton = e.target.closest('.start-button');
 
-    if (startButton == null) return;
+    if (startButton == null) {
+        return;
+    }
 
     // todo: by options
     onStartGame([10, 10]);
