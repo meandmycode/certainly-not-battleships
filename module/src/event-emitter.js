@@ -1,4 +1,17 @@
 /**
+ * @typedef Event
+ * @type {object}
+ * @property {string} type - the type of event dispatched
+ * @property {object} [target] - the object that dispatched the event
+ */
+
+/**
+ * Function representing a callback from a dispatched event.
+ * @callback EventEmitter~callback
+ * @param {Event} event - the dispatched event
+ */
+
+/**
  * Class representing a basic event emitter which just supports
  * typed events but not bubbling or cancelation.
  */
@@ -12,6 +25,11 @@ export default class EventEmitter {
         return this._listeners[type] || (this._listeners[type] = new Set());
     }
 
+    /**
+     * Add a lister callback for the specified event type.
+     * @param {string} type - the type of event to listen for
+     * @param {EventEmitter~callback} listener - the event callback
+     */
     addEventListener(type, listener) {
 
         if (type == null) {
@@ -28,6 +46,11 @@ export default class EventEmitter {
 
     }
 
+    /**
+     * Remove a lister callback for the specified event type.
+     * @param {string} type - the type of event to listen for
+     * @param {EventEmitter~callback} listener - the event callback
+     */
     removeEventListener(type, listener) {
 
         if (type == null) {
@@ -44,6 +67,10 @@ export default class EventEmitter {
 
     }
 
+    /**
+     * Dispatch an event of a specified type to all current listeners.
+     * @param {Event} event - the event to dispatch
+     */
     dispatchEvent(event) {
 
         if (event == null) {

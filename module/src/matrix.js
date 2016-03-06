@@ -1,12 +1,14 @@
-function normalizeDegrees(degrees) {
+import { normalizeWithinDomain } from './utils.js';
 
-    degrees %= 360;
-
-    return degrees < 0 ? degrees + 360 : degrees;
-}
-
+/** Class representing a 2-dimensional matrix. */
 export default class Matrix {
 
+    /**
+     * Create a matrix of specific dimensions and data.
+     * @param  {number} rows - the amount of rows within the matrix
+     * @param  {number} columns - the amount of columns within the matrix
+     * @param  {[]} data - the 2-dimensional data representing the matrix values
+     */
     constructor(rows, columns, data) {
 
         if (Array.isArray(rows)) {
@@ -20,6 +22,11 @@ export default class Matrix {
         this.data = data;
     }
 
+    /**
+     * Create a new matrix from the current matrix, with the specified vertical and horizontal offset.
+     * @param  {[number, number]} position - the offset at which the source matrix will begin within the new matrix
+     * @return {Matrix}
+     */
     placeAt([column, row]) {
 
         const copy = this.clone();
@@ -39,6 +46,10 @@ export default class Matrix {
 
     }
 
+    /**
+     * Create a new matrix that is the transpose of the current matrix.
+     * @return {Matrix}
+     */
     transpose() {
 
         const data = new Array(this.columns);
@@ -56,6 +67,10 @@ export default class Matrix {
 
     }
 
+    /**
+     * Create a new matrix that is a vertically flipped copy of the current matrix.
+     * @return {Matrix}
+     */
     vflip() {
 
         const copy = this.clone();
@@ -64,6 +79,10 @@ export default class Matrix {
 
     }
 
+    /**
+     * Create a new matrix that is a horizontally flipped copy of the current matrix.
+     * @return {Matrix}
+     */
     hflip() {
 
         const copy = this.clone();
@@ -76,9 +95,14 @@ export default class Matrix {
 
     }
 
+    /**
+     * Create a new matrix that is a rotation of the current matrix by the specified rotation.
+     * @param {number} rotation - the rotation in degrees, limited to 90 degree increments.
+     * @return {Matrix}
+     */
     turn(rotation) {
 
-        rotation = normalizeDegrees(rotation);
+        rotation = rotation::normalizeWithinDomain(0, 360);
 
         // todo: normalize rotation to 0-360
 
@@ -96,14 +120,33 @@ export default class Matrix {
 
     }
 
+    /**
+     * Get the value of the matrix at a given row and column position.
+     * @param  {number} row - the row to find the value at
+     * @param  {number} column - the column to find the value at
+     * @return {*}
+     */
     get(row, column) {
         return row >= this.rows ? undefined : this.data[row][column];
     }
 
+    /**
+     * Set the value of the matrix at a given row and column position.
+     * @param {number} row - the row to find the value at
+     * @param {number} column - the column to find the value at
+     * @param {*} value - the value to set
+     */
     set(row, column, value) {
         this.data[row][column] = value;
     }
 
+    /**
+     * Determine if the current matrix intersects any of the provided matrices
+     * where intersection is considered to be when one or more matrix values are
+     * equal to 1 at the same row and column position.
+     * @param  {[Matrix]} matrices - the sequence of matrix to check intersection with
+     * @return {boolean}
+     */
     intersects(matrices) {
 
         // todo: potentially we can run faster here by merging the other matrices into one
@@ -131,6 +174,10 @@ export default class Matrix {
         return false;
     }
 
+    /**
+     * Create a shallow copy of the current matrix.
+     * @return {Matrix}
+     */
     clone() {
 
         const data = new Array(this.rows);
@@ -142,6 +189,12 @@ export default class Matrix {
         return new Matrix(this.rows, this.columns, data);
     }
 
+    /**
+     * Create a matrix of the specified width and height with all values initialized to 1.
+     * @param  {number} width - the width of the filled matrix
+     * @param  {number} height - the height of the filled matrix
+     * @return {Matrix}
+     */
     static rectangle(width, height) {
 
         const data = new Array(height);
@@ -154,18 +207,41 @@ export default class Matrix {
 
     }
 
+    /**
+     * Zero degrees of rotation.
+     * @property {number}
+     * @readonly
+     */
     static get ROTATION_0() {
         return 0;
     }
 
+
+    /**
+     * 90 degrees of rotation.
+     * @property {number}
+     * @readonly
+     */
     static get ROTATION_90() {
         return 90;
     }
 
+
+    /**
+     * 180 degrees of rotation.
+     * @property {number}
+     * @readonly
+     */
     static get ROTATION_180() {
         return 180;
     }
 
+
+    /**
+     * 270 degrees of rotation.
+     * @property {number}
+     * @readonly
+     */
     static get ROTATION_270() {
         return 270;
     }

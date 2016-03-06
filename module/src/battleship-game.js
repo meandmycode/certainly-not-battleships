@@ -9,7 +9,9 @@ import { toMap, getRelativeItem } from './utils.js';
  * @typedef BattleshipRules
  * @type {object}
  * @property {array} grid - a tuple representing the grid size in columns and rows.
+ */
 
+/**
  * @typedef BattleshipGameInit
  * @type {object}
  * @property {array} players - an array of exactly two players.
@@ -61,6 +63,9 @@ export default class BattleshipGame extends EventEmitter {
 
     }
 
+    /**
+     * Moves the game into placement phase if currently in the starting phase.
+     */
     start() {
 
         if (this.state !== BattleshipGame.STATE_STARTING) {
@@ -70,6 +75,10 @@ export default class BattleshipGame extends EventEmitter {
         this.state = BattleshipGame.STATE_PLACEMENT;
     }
 
+    /**
+     * The game's current state.
+     * @return {number} state
+     */
     get state() {
         return this._state;
     }
@@ -182,7 +191,7 @@ export default class BattleshipGame extends EventEmitter {
 
     /**
      * The 'starting' state value for a battleship game.
-     * @type {number}
+     * @property {number}
      * @readonly
      */
     static get STATE_STARTING() {
@@ -191,7 +200,7 @@ export default class BattleshipGame extends EventEmitter {
 
     /**
      * The 'placement' state value for a battleship game.
-     * @type {number}
+     * @property {number}
      * @readonly
      */
     static get STATE_PLACEMENT() {
@@ -200,7 +209,7 @@ export default class BattleshipGame extends EventEmitter {
 
     /**
      * The 'attack' state value for a battleship game.
-     * @type {number}
+     * @property {number}
      * @readonly
      */
     static get STATE_ATTACK() {
@@ -209,7 +218,7 @@ export default class BattleshipGame extends EventEmitter {
 
     /**
      * The 'finish' state value for a battleship game.
-     * @type {number}
+     * @property {number}
      * @readonly
      */
     static get STATE_FINISH() {
@@ -218,7 +227,7 @@ export default class BattleshipGame extends EventEmitter {
 
     /**
      * The default rules for a battleship game.
-     * @type {BattleshipRules}
+     * @property {BattleshipRules}
      * @readonly
      */
     static get DEFAULT_RULES() {

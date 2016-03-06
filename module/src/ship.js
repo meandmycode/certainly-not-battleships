@@ -1,5 +1,11 @@
 import Matrix from './matrix.js';
 
+/**
+ * Calculate the hittable points within a matrix by iterating
+ * its values and counting those which are 1.
+ * @param  {Matrix} matrix - the matrix to calculate
+ * @return {number} the amount of values in the matrix whose value is 1
+ */
 function calculateImpactArea(matrix) {
 
     let count = 0;
@@ -26,12 +32,20 @@ function calculateImpactArea(matrix) {
  */
 export default class Ship {
 
+    /**
+     * Create a ship using the provided matrix to define the shape of the ship.
+     * @param  {Matrix} matrix - the shape of the ship as a matrix.
+     */
     constructor(matrix) {
         this._matrix = matrix;
         this._computed = null;
         this.health = calculateImpactArea(matrix);
     }
 
+    /**
+     * The ship's current matrix shape.
+     * @property {Matrix} matrix
+     */
     get matrix() {
         return this._matrix;
     }
@@ -41,6 +55,10 @@ export default class Ship {
         this._matrix = value;
     }
 
+    /**
+     * The ship's current position.
+     * @property {[number, number]} position
+     */
     get position() {
         return this._position;
     }
@@ -50,6 +68,10 @@ export default class Ship {
         this._position = value;
     }
 
+    /**
+     * The ship's current rotation in degrees, limited to 90 degree increments.
+     * @property {number} rotation
+     */
     get rotation() {
         return this._rotation;
     }
@@ -59,9 +81,19 @@ export default class Ship {
         this._rotation = value;
     }
 
+    /**
+     * The ship's computed matrix after rotation and position are taken into consideration.
+     * @property {Matrix} computed
+     */
     get computed() {
 
-        // todo: if position or rotation haven't yet been set, then throw
+        if (this.rotation == null) {
+            throw new Error(`CANNOT_GET_COMPUTED_MATRIX_WITHOUT_ROTATION`);
+        }
+
+        if (this.position == null) {
+            throw new Error(`CANNOT_GET_COMPUTED_MATRIX_WITHOUT_POSITION`);
+        }
 
         if (this._computed == null) {
             this._computed = this.matrix.turn(this.rotation).placeAt(this.position);

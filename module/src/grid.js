@@ -1,8 +1,13 @@
 import Matrix from './matrix.js';
 
-// todo: merge behaviour here into player-state
+/** Class representing a players grid within a game of battleship. */
 export default class Grid {
 
+    /**
+     * Create a grid of specific dimensions and ships.
+     * @param  {[number, number]} dimensions - the dimensions of the grid
+     * @param  {[Ship]} ships - the ships the player should place on the grid
+     */
     constructor(dimensions, ships) {
         this.dimensions = dimensions;
         this.width = dimensions[0];
@@ -10,7 +15,11 @@ export default class Grid {
         this.ships = ships;
     }
 
-    // iterate our ships and see if any are hit by this attack
+    /**
+     * Find a ship within our grid that is intersecting with the specified position.
+     * @param  {[number, number]} position - the position to find a ship at
+     * @return {Ship}
+     */
     getShipAtPosition(position) {
 
         // upcast our position coordinates to a matrix that can be intersected

@@ -1,11 +1,5 @@
 import Matrix from './matrix.js';
-import { shuffled, randomInteger } from './utils.js';
-
-/*
- * @typedef GridSelectionStrategy
- * @type {function}
- * @param {PlayerState} playerState - the player the strategy should be applied to.
- */
+import { shuffled } from './utils.js';
 
 const rotations = [
     Matrix.ROTATION_0,
@@ -95,6 +89,12 @@ function getRandomPlacement(ships, dimensions, currentTry = 0) {
     return placements;
 
 }
+
+/*
+ * @typedef GridSelectionStrategy
+ * @type {function}
+ * @param {PlayerState} playerState - the player the strategy should be applied to.
+ */
 
 /** Class representing strategies for selecting points within a grid. */
 export default class GridSelectionStrategy {
