@@ -82,7 +82,7 @@ function onStartGame(dimensions) {
         grid: dimensions
     });
 
-    const placementStrategy = GridSelectionStrategy.RANDOM;
+    const placementStrategy = GridSelectionStrategy.RANDOM_PLACEMENT;
     const attackStrategy = GridSelectionStrategy.RANDOM;
 
     const computer = new ComputerPlayer({ placementStrategy, attackStrategy });
