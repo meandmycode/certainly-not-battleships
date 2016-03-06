@@ -37,11 +37,12 @@
         .log-wrap {
             flex: 1;
             position: relative;
+            overflow: hidden;
 
             .log {
                 position: absolute;
+                bottom: 0;
                 width: 100%;
-                height: 100%;
             }
         }
 
@@ -50,7 +51,6 @@
         }
 
         .log {
-            overflow-y: scroll;
             text-transform: uppercase;
             font-weight: bold;
             list-style: none;
@@ -83,6 +83,7 @@
         input {
             appearance: none;
             background: rgba(0, 0, 0, 0.05);
+            border-radius: none; // remove default rounding on ios
             box-shadow: none; // remove default firefox :invalid style
             outline: none;
             border: none;
@@ -97,7 +98,7 @@
         }
     }
 
-    .opponent-grid .cell:not(.header-cell):not([data-state]) {
+    .opponent-grid .cell:not(.header-cell):not(.shot) {
         cursor: crosshair;
 
         &:hover {
@@ -121,11 +122,11 @@
             background-size: 65%;
             position: relative;
 
-            &[data-state] {
+            &.shot {
                 background-image: url(img/cross.svg);
             }
 
-            &[data-state=hit] {
+            &.hit {
                 background-image: url(img/cross.svg#fill=#ff0000);
             }
 
