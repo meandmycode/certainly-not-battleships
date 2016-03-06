@@ -36,6 +36,7 @@ describe('GridSelectionStrategy',  () => {
 
             const opponentPlayerState = {
                 player: {},
+                shotmap: new Map(),
                 grid: {
                     dimensions: [10, 10],
                     width: 10,
@@ -45,7 +46,7 @@ describe('GridSelectionStrategy',  () => {
 
             GridSelectionStrategy.RANDOM_ATTACK(playerState, [opponentPlayerState]);
 
-            expect(playerState.fire).toHaveBeenCalledWith(opponentPlayerState.player, [jasmine.any(Number), jasmine.any(Number)]);
+            expect(playerState.fire).toHaveBeenCalledWith(opponentPlayerState, [jasmine.any(Number), jasmine.any(Number)]);
 
         })
 

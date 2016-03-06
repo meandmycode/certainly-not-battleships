@@ -69,7 +69,7 @@ describe('ComputerPlayer',  () => {
 
         const playerStates = new Map();
 
-        const state = {};
+        const state = { player: computer };
         const otherPlayerState = {};
 
         playerStates.set(computer, state);
@@ -81,7 +81,7 @@ describe('ComputerPlayer',  () => {
             addEventListener(type, listener) {
 
                 if (type === 'player-turn') {
-                    listener({ type: 'player-turn', player: computer });
+                    listener({ type: 'player-turn', player: state });
                 }
 
             }

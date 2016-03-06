@@ -103,6 +103,12 @@ describe('BattleshipGame',  () => {
 
     })
 
+    /*
+
+    todo: this is really testing PlayerState so should be part of the player state
+          we're also really trying to see if the game reacts to a player dispatching
+          an attack request
+
     it('should allow a player to fire a shot', () => {
 
         const player1 = jasmine.createSpyObj('player', ['dispatchEvent']);
@@ -127,6 +133,8 @@ describe('BattleshipGame',  () => {
         const [shipA] = state2.grid.ships;
         shipA.position = [0, 0];
 
+        game.start();
+
         state1.fire(player2, [0, 0]);
 
         // assert we got a shot event as expected
@@ -144,5 +152,7 @@ describe('BattleshipGame',  () => {
         // });
 
     })
+
+     */
 
 })
