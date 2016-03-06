@@ -145,8 +145,11 @@ function onStartGame(dimensions) {
 
         // find the cell within the grid that matches the column and row
         const cell = grid::getCellByCoordinate(e.position);
+        cell.classList.add('shot');
 
-        cell.dataset.state = e.ship ? 'hit' : 'miss';
+        if (e.ship) {
+            cell.classList.add('hit');
+        }
 
         if (e.attacker === player) {
             if (e.sank) {
