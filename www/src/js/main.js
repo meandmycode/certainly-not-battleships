@@ -1,5 +1,6 @@
 import './platform.js';
 import './lib/regenerator-runtime.js';
+import './lib/fastclick.min.js';
 
 import BattleshipGame from '../bower_components/battleships-module/src/battleship-game.js';
 import Player from '../bower_components/battleships-module/src/player.js';
@@ -7,6 +8,8 @@ import ComputerPlayer from '../bower_components/battleships-module/src/computer-
 import GridSelectionStrategy from '../bower_components/battleships-module/src/grid-selection-strategy.js';
 
 import * as cellref from './cell-reference.js';
+
+FastClick.attach(document.documentElement);
 
 const stageElement = document.querySelector('.board .stage');
 const logListElement = document.querySelector('.board .commands .log');
