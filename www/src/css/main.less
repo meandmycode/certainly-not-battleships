@@ -1,0 +1,68 @@
+@import "config";
+
+* {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none; // ie does not have a built in style for hidden
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+html {
+    font-family: 'Roboto Condensed', Helvetica;
+    color: #1b201e;
+    user-select: none;
+    cursor: default;
+    height: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    transition: opacity 300ms 150ms ease-out;
+    will-change: opacity;
+
+    &[hidden] {
+        display: block;
+        opacity: 0;
+    }
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    .game {
+        max-width: 1300px;
+        min-width: 800px;
+        padding: 50px;
+        margin: 0 auto;
+        flex: 1;
+    }
+
+    .game-header, .board {
+        flex: auto;
+    }
+}
+
+textarea, input, button {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+@import "game-header";
+@import "button";
+@import "dialog";
+@import "board";

@@ -1,0 +1,207 @@
+@import "config";
+
+.board {
+    display: flex;
+    margin: 50px 0;
+
+    .stage {
+        display: flex;
+        flex: 3;
+    }
+
+    .grid-item {
+        flex: auto;
+        position: relative;
+
+        &::before {
+            content: '';
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        .grid {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .commands {
+        flex: 1;
+        border: 2px solid rgba(0, 0, 0, 0.75);
+        display: flex;
+        flex-flow: column;
+        font-size: 1.2em;
+
+        .log-wrap {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+
+            .log {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+        }
+
+        .log, input {
+            padding: 0.5em 0.8em;
+        }
+
+        .log {
+            text-transform: uppercase;
+            font-weight: bold;
+            list-style: none;
+            margin: 0;
+            display: flex;
+            flex-flow: column;
+            justify-content: flex-end;
+        }
+
+        li {
+            flex-shrink: 0;
+            margin-top: 0.8em;
+            font-size: 0.8em;
+            animation: fade-back 4s 10s forwards ease-out;
+        }
+
+        li[data-player-type=self] {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        li[data-player-type=opponent] {
+            text-align: right;
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        form {
+            display: flex; // fixes extra margin under the input in ie
+        }
+
+        input {
+            appearance: none;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: none; // remove default rounding on ios
+            box-shadow: none; // remove default firefox :invalid style
+            outline: none;
+            border: none;
+            border-top: 1px solid rgba(0, 0, 0, 0.3);
+            resize: none;
+            min-height: 78px; // visual alignment with adjacent grid rows
+            width: 100%;
+
+            &::placeholder {
+                text-align: center;
+            }
+        }
+    }
+
+    .opponent-grid .cell:not(.header-cell):not(.shot) {
+        cursor: crosshair;
+
+        &:hover {
+            background-color: darken(rgba(0, 0, 0, 0.05), 20%);
+        }
+    }
+
+    .grid {
+        display: flex;
+        flex-flow: column;
+        counter-reset: column -1 row -1;
+
+        .row {
+            display: flex;
+            flex: auto;
+        }
+
+        .cell {
+            flex: 1;
+            background: no-repeat center center;
+            background-size: 65%;
+            position: relative;
+
+            &.shot {
+                background-image: url(img/cross.svg);
+            }
+
+            &.hit {
+                background-image: url(img/cross.svg#fill=#ff0000);
+            }
+
+            &.hittable {
+                background-color: rgba(0, 0, 0, 0.15);
+            }
+        }
+
+        .header-cell::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-row {
+
+            .header-cell {
+                counter-increment: column;
+            }
+
+            .header-cell + .header-cell::before {
+                content: counter(column);
+            }
+        }
+
+        .row {
+            counter-increment: row;
+        }
+
+        .row:not(.header-row) .header-cell {
+
+            &::before {
+                content: counter(row, upper-alpha);
+            }
+        }
+
+        .cell::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .row + .row .cell::after {
+            border-top: 1px solid darken(rgba(0, 0, 0, 0.3), 14%);
+        }
+
+        .cell + .cell::after {
+            border-left: 1px solid darken(rgba(0, 0, 0, 0.3), 14%);
+        }
+
+        .header-row + .row .cell::after {
+            border-top: 2px solid rgba(0, 0, 0, 0.75);
+        }
+
+        .header-cell:first-child + .cell::after {
+            border-left: 2px solid rgba(0, 0, 0, 0.75);
+        }
+    }
+
+    .grid-item + .grid-item, .commands {
+        margin-left: 20px;
+    }
+}
+
+@keyframes fade-back {
+
+    to {
+        opacity: 0.3;
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "presets": ["es2015"],
+    "plugins": [
+        "syntax-function-bind",
+        "syntax-async-functions",
+        "transform-function-bind",
+        "transform-regenerator"
+    ]
+}

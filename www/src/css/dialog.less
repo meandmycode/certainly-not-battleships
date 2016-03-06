@@ -1,0 +1,60 @@
+@import "config";
+
+.dialog-host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: opacity 200ms ease-out;
+    will-change: opacity;
+
+    &[hidden] {
+        pointer-events: none;
+        opacity: 0;
+
+        .dialog {
+            transform: scale(0.95);
+        }
+    }
+
+    .dialog {
+        text-align: center;
+        background: #fff;
+        border-radius: 6px;
+        padding: 2em;
+        position: relative;
+
+        transition: transform 200ms cubic-bezier(0.6, 1.05, 0.9, 1.2);
+        will-change: transform;
+    }
+
+    h1, p {
+        text-transform: uppercase;
+        margin: 0 0 15px;
+    }
+
+    h1 {
+        line-height: 1;
+    }
+
+    p {
+        font-size: 1.4em;
+    }
+}
+
+.winning-dialog-host .dialog,
+.game-over-dialog-host .dialog, {
+    width: 500px;
+}
+
+.game-over-dialog-host .dialog p {
+    width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+}
