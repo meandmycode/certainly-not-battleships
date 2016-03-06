@@ -22,7 +22,16 @@ export default class EventEmitter {
     }
 
     _getListenersForType(type) {
-        return this._listeners[type] || (this._listeners[type] = new Set());
+
+        let listeners = this._listeners.get(type);
+
+        if (listeners == null) {
+            listeners = new Set();
+            this._listeners.set(type, listeners);
+        }
+
+        return listeners;
+
     }
 
     /**
