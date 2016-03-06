@@ -72,7 +72,6 @@ function getCellByCoordinate([column, row]) {
 
     return grid.querySelector(`.cell[data-column='${column}'][data-row='${row}']`);
 
-
 }
 
 /** When starting a new game */
@@ -205,8 +204,6 @@ function log(entry, type, playerType = 'self') {
 
 function fireAt(coordinate, textCommand) {
 
-    // log(textCommand || `Fire at ${cellref.stringify(coordinate)}`, 'request');
-
     const game = currentGame;
     const state = game.playerStates.get(player);
 
@@ -242,7 +239,7 @@ document.addEventListener('click', e => {
 
 });
 
-//
+
 document.addEventListener('click', e => {
 
     const cell = e.target.closest('.opponent-grid .cell:not(.header-cell):not([data-state])');
