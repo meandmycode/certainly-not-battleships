@@ -9,7 +9,7 @@ if (this.Symbol == null) {
         }
 
         toString() {
-            return '';
+            return this._key;
         }
 
         static get iterator() {
